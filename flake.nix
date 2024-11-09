@@ -6,19 +6,30 @@
   outputs =
     { nixpkgs, ... }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+      systems = [ "x86_64-linux" ];
+      forSystems =
+        function:
+        nixpkgs.lib.genAttrs systems (
+          system:
+          function (
+            import nixpkgs {
+              inherit system;
+            }
+          )
+        );
     in
     {
-      devShells.${system}.default = pkgs.mkShell {
-        name = "nix-direnv-shell";
+      devShells = forSystems (pkgs: {
+        default = pkgs.mkShell {
+          name = "nix-direnv-shell";
 
-        buildInputs = with pkgs; [
-          bashInteractive
-          nixd
-          nixfmt-rfc-style
-        ];
-      };
+          buildInputs = with pkgs; [
+            bashInteractive
+            nixd
+            nixfmt-rfc-style
+          ];
+        };
+      });
 
       templates.default = {
         path = ./template;
