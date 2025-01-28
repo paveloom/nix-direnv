@@ -6,16 +6,10 @@
   outputs =
     { nixpkgs, ... }:
     let
-      systems = [ "x86_64-linux" ];
       forSystems =
         function:
-        nixpkgs.lib.genAttrs systems (
-          system:
-          function (
-            import nixpkgs {
-              inherit system;
-            }
-          )
+        nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (
+          system: function (import nixpkgs { inherit system; })
         );
     in
     {
