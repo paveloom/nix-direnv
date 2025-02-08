@@ -8,5 +8,12 @@
         }
       }
     }
+  },
+  "lsp": {
+    "zls": {
+      "binary": {
+        "arguments": ["--config-path", "zls.json"]
+      }
+    }
   }
 }
