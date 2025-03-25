@@ -7,6 +7,12 @@
           "command": "nixfmt"
         }
       }
+    },
+    "Zig": {
+      "code_actions_on_format": {
+        "source.fixAll": true,
+        "source.organizeImports": true
+      }
     }
   },
   "lsp": {
